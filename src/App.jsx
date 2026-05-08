@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Leaf, Monitor, BookOpen, Network, Layers, Users, Globe,
   User, Library, PenTool, Briefcase, Landmark,
