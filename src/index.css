@@ -1,5 +1,37 @@
 @import "tailwindcss";
 
+/* Design System: The Architectural Monograph */
+:root {
+  --surface:          #f9fbec;
+  --surface-low:      #ffffff;
+  --surface-high:     #e2e4d5;
+  --primary:          #000000;
+  --on-primary:       #ffffff;
+  --on-surface:       #1a1d14;
+  --secondary:        #446277;
+  --cyan:             #c7e6ff;
+}
+
 body {
   margin: 0;
+  background-color: var(--surface);
+}
+
+/* Space Grotesk for technical labels & annotations */
+.font-label {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Vertical text for editorial sidebar labels */
+.text-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+}
+
+/* Blueprint dot-grid background */
+.blueprint-grid {
+  background-color: var(--surface);
+  background-image: radial-gradient(circle, rgba(26, 29, 20, 0.09) 1px, transparent 1px);
+  background-size: 24px 24px;
 }

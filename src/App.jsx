@@ -1,67 +1,91 @@
 import React, { useState } from 'react';
-import { Leaf, Monitor, BookOpen, LayoutGrid, Network, Layers, Users, Globe, User, Library, PenTool, Briefcase, Landmark, TrendingUp, Trophy, MapPin, ChevronRight } from 'lucide-react';
+import {
+  Leaf, Monitor, BookOpen, Network, Layers, Users, Globe,
+  User, Library, PenTool, Briefcase, Landmark,
+} from 'lucide-react';
+
+/* ─── Data ─────────────────────────────────────────────────────────── */
 
 const themes = [
-  { id: 'climate', name: 'Climate & Ecology', icon: Leaf, color: 'text-emerald-600', bg: 'bg-emerald-50', barColor: 'bg-emerald-500', desc: 'Focuses on the environment, reducing carbon, ecosystems, and building resilience against climate change.', subthemes: ['Environmental Performance', 'Resilience', 'Carbon', 'Ecosystems'] },
-  { id: 'systems', name: 'Systems & Urban Scale', icon: Network, color: 'text-cyan-600', bg: 'bg-cyan-50', barColor: 'bg-cyan-500', desc: 'Explores infrastructure, urban science, and circular regional thinking.', subthemes: ['Infrastructure', 'Urban Science', 'Regional Thinking', 'Circularity'] },
-  { id: 'materials', name: 'Material & Fabrication Futures', icon: Layers, color: 'text-amber-600', bg: 'bg-amber-50', barColor: 'bg-amber-500', desc: 'Examines new biomaterials and advanced digital fabrication techniques.', subthemes: ['Biomaterials', 'Digital Fabrication'] },
-  { id: 'digital', name: 'Computation & Data', icon: Monitor, color: 'text-blue-600', bg: 'bg-blue-50', barColor: 'bg-blue-500', desc: 'Uses software, AI, simulation, and parametric design to solve architectural problems.', subthemes: ['AI', 'Simulation', 'Parametric Design', 'Geospatial Analysis'] },
-  { id: 'society', name: 'Society, Ethics & Politics', icon: Users, color: 'text-rose-600', bg: 'bg-rose-50', barColor: 'bg-rose-500', desc: 'Focuses on social justice, participation, governance, and housing dynamics.', subthemes: ['Justice', 'Participation', 'Governance', 'Housing'] },
-  { id: 'globalization', name: 'Globalization & Cultural Context', icon: Globe, color: 'text-indigo-600', bg: 'bg-indigo-50', barColor: 'bg-indigo-500', desc: 'Looks at identity, regionalism, migration, and indigenous knowledge systems.', subthemes: ['Identity', 'Regionalism', 'Migration', 'Indigenous Knowledge'] },
-  { id: 'human', name: 'Human Experience', icon: User, color: 'text-pink-600', bg: 'bg-pink-50', barColor: 'bg-pink-500', desc: 'Studies perception, wellbeing, spatial experience, and ergonomics.', subthemes: ['Perception', 'Wellbeing', 'Spatial Experience', 'Ergonomics'] },
-  { id: 'history', name: 'History, Theory & Criticism', icon: Library, color: 'text-stone-600', bg: 'bg-stone-50', barColor: 'bg-stone-500', desc: 'Explores architectural history, critical theory, and academic discourse.', subthemes: ['Architectural History', 'Critical Theory', 'Discourse'] },
-  { id: 'media', name: 'Representation & Media', icon: PenTool, color: 'text-violet-600', bg: 'bg-violet-50', barColor: 'bg-violet-500', desc: 'Focuses on drawing, visualization, narrative, and aesthetics.', subthemes: ['Drawing', 'Visualization', 'Narrative', 'Aesthetics'] },
-  { id: 'practice', name: 'Practice, Economics & Delivery', icon: Briefcase, color: 'text-orange-600', bg: 'bg-orange-50', barColor: 'bg-orange-500', desc: 'Covers procurement, development, and the realities of professional practice.', subthemes: ['Procurement', 'Development', 'Professional Practice'] },
-  { id: 'heritage', name: 'Heritage & Transformation', icon: Landmark, color: 'text-teal-600', bg: 'bg-teal-50', barColor: 'bg-teal-500', desc: 'Addresses conservation, adaptive reuse, and cultural continuity.', subthemes: ['Conservation', 'Adaptive Reuse', 'Cultural Continuity'] },
-  { id: 'pedagogy', name: 'Pedagogy & Research Methods', icon: BookOpen, color: 'text-purple-600', bg: 'bg-purple-50', barColor: 'bg-purple-500', desc: 'Explores new ways to study, working in diverse teams, and creating alternative forms of knowledge.', subthemes: ['Design Research', 'Interdisciplinary Methods', 'Knowledge Production'] },
+  { id: 'climate',      name: 'Climate & Ecology',              icon: Leaf,     color: 'text-emerald-700', barColor: 'bg-emerald-600', subthemes: ['Environmental Performance', 'Resilience', 'Carbon', 'Ecosystems'],                    desc: 'Focuses on the environment, reducing carbon, ecosystems, and building resilience against climate change.' },
+  { id: 'systems',      name: 'Systems & Urban Scale',          icon: Network,  color: 'text-cyan-700',    barColor: 'bg-cyan-600',    subthemes: ['Infrastructure', 'Urban Science', 'Regional Thinking', 'Circularity'],               desc: 'Explores infrastructure, urban science, and circular regional thinking.' },
+  { id: 'materials',    name: 'Material & Fabrication Futures', icon: Layers,   color: 'text-amber-700',   barColor: 'bg-amber-600',   subthemes: ['Biomaterials', 'Digital Fabrication'],                                                desc: 'Examines new biomaterials and advanced digital fabrication techniques.' },
+  { id: 'digital',      name: 'Computation & Data',             icon: Monitor,  color: 'text-blue-700',    barColor: 'bg-blue-600',    subthemes: ['AI', 'Simulation', 'Parametric Design', 'Geospatial Analysis'],                      desc: 'Uses software, AI, simulation, and parametric design to solve architectural problems.' },
+  { id: 'society',      name: 'Society, Ethics & Politics',     icon: Users,    color: 'text-rose-700',    barColor: 'bg-rose-600',    subthemes: ['Justice', 'Participation', 'Governance', 'Housing'],                                 desc: 'Focuses on social justice, participation, governance, and housing dynamics.' },
+  { id: 'globalization',name: 'Globalization & Cultural Context',icon: Globe,   color: 'text-indigo-700',  barColor: 'bg-indigo-600',  subthemes: ['Identity', 'Regionalism', 'Migration', 'Indigenous Knowledge'],                      desc: 'Looks at identity, regionalism, migration, and indigenous knowledge systems.' },
+  { id: 'human',        name: 'Human Experience',               icon: User,     color: 'text-pink-700',    barColor: 'bg-pink-600',    subthemes: ['Perception', 'Wellbeing', 'Spatial Experience', 'Ergonomics'],                       desc: 'Studies perception, wellbeing, spatial experience, and ergonomics.' },
+  { id: 'history',      name: 'History, Theory & Criticism',    icon: Library,  color: 'text-stone-700',   barColor: 'bg-stone-600',   subthemes: ['Architectural History', 'Critical Theory', 'Discourse'],                             desc: 'Explores architectural history, critical theory, and academic discourse.' },
+  { id: 'media',        name: 'Representation & Media',         icon: PenTool,  color: 'text-violet-700',  barColor: 'bg-violet-600',  subthemes: ['Drawing', 'Visualization', 'Narrative', 'Aesthetics'],                               desc: 'Focuses on drawing, visualization, narrative, and aesthetics.' },
+  { id: 'practice',     name: 'Practice, Economics & Delivery', icon: Briefcase,color: 'text-orange-700',  barColor: 'bg-orange-600',  subthemes: ['Procurement', 'Development', 'Professional Practice'],                               desc: 'Covers procurement, development, and the realities of professional practice.' },
+  { id: 'heritage',     name: 'Heritage & Transformation',      icon: Landmark, color: 'text-teal-700',    barColor: 'bg-teal-600',    subthemes: ['Conservation', 'Adaptive Reuse', 'Cultural Continuity'],                             desc: 'Addresses conservation, adaptive reuse, and cultural continuity.' },
+  { id: 'pedagogy',     name: 'Pedagogy & Research Methods',    icon: BookOpen, color: 'text-purple-700',  barColor: 'bg-purple-600',  subthemes: ['Design Research', 'Interdisciplinary Methods', 'Knowledge Production'],              desc: 'Explores new ways to study, working in diverse teams, and creating alternative forms of knowledge.' },
 ];
 
 const programmes = [
-  { id: 'sed', name: 'Sustainable Environmental Design', awards: 'MSc / MArch', scores: { climate: 5, digital: 4, pedagogy: 2 }, themes: ['climate', 'digital'], subthemes: ['Environmental Performance', 'Carbon', 'Simulation'], desc: 'Looks at how buildings perform environmentally, aiming to lower carbon emissions using simulation tools.' },
-  { id: 'etd', name: 'Emergent Technologies and Design', awards: 'MSc / MArch', scores: { climate: 4, digital: 5, pedagogy: 4 }, themes: ['climate', 'digital', 'pedagogy'], subthemes: ['Environmental Performance', 'Resilience', 'Ecosystems', 'Parametric Design', 'Design Research'], desc: 'Combines local ecosystems with digital parametric models and practice-led research.' },
-  { id: 'lu', name: 'Landscape Urbanism', awards: 'MSc / MArch', scores: { climate: 4, digital: 5, pedagogy: 2 }, themes: ['climate', 'digital'], subthemes: ['Ecosystems', 'Simulation', 'Geospatial Analysis'], desc: 'Explores ecosystems and landscapes using computer simulations and geographic mapping (GIS).' },
-  { id: 'hu', name: 'Housing and Urbanism', awards: 'MA / MArch', scores: { climate: 4, digital: 1, pedagogy: 3 }, themes: ['climate'], subthemes: ['Resilience'], desc: 'Investigates how cities are built and how to make them resilient.' },
-  { id: 'cr', name: 'Conservation and Reuse', awards: 'MA / PGDip', scores: { climate: 5, digital: 2, pedagogy: 2 }, themes: ['climate'], subthemes: ['Carbon'], desc: 'Focuses on measuring and reducing the carbon footprint of existing buildings.' },
-  { id: 'drl', name: 'Architecture and Urbanism (DRL)', awards: 'MArch', scores: { climate: 1, digital: 5, pedagogy: 2 }, themes: ['digital'], subthemes: ['Parametric Design'], desc: 'Explores rule-based digital modeling and advanced fabrication techniques.' },
-  { id: 'pc', name: 'Projective Cities', awards: 'Taught MPhil', scores: { climate: 2, digital: 1, pedagogy: 5 }, themes: ['pedagogy'], subthemes: ['Design Research'], desc: 'Aims to foster hands-on, practice-led design research.' },
-  { id: 'spd', name: 'Spatial Performance and Design', awards: 'MA / MFA', scores: { climate: 1, digital: 2, pedagogy: 5 }, themes: ['pedagogy'], subthemes: ['Interdisciplinary Methods'], desc: 'Focuses on working collaboratively in professional, multi-disciplinary teams.' },
-  { id: 'hct', name: 'History and Critical Thinking', awards: 'MA', scores: { climate: 1, digital: 1, pedagogy: 5 }, themes: ['pedagogy'], subthemes: ['Interdisciplinary Methods', 'Knowledge Production'], desc: 'Looks at alternative ways to create and share architectural knowledge.' },
+  { id: 'sed',  name: 'Sustainable Environmental Design',  awards: 'MSc / MArch',  scores: { climate: 5, digital: 4, pedagogy: 2 }, subthemes: ['Environmental Performance', 'Carbon', 'Simulation'],                               desc: 'Looks at how buildings perform environmentally, aiming to lower carbon emissions using simulation tools.' },
+  { id: 'etd',  name: 'Emergent Technologies and Design',  awards: 'MSc / MArch',  scores: { climate: 4, digital: 5, pedagogy: 4 }, subthemes: ['Environmental Performance', 'Resilience', 'Ecosystems', 'Parametric Design', 'Design Research'], desc: 'Combines local ecosystems with digital parametric models and practice-led research.' },
+  { id: 'lu',   name: 'Landscape Urbanism',                awards: 'MSc / MArch',  scores: { climate: 4, digital: 5, pedagogy: 2 }, subthemes: ['Ecosystems', 'Simulation', 'Geospatial Analysis'],                                 desc: 'Explores ecosystems and landscapes using computer simulations and geographic mapping (GIS).' },
+  { id: 'hu',   name: 'Housing and Urbanism',              awards: 'MA / MArch',   scores: { climate: 4, digital: 1, pedagogy: 3 }, subthemes: ['Resilience'],                                                                        desc: 'Investigates how cities are built and how to make them resilient.' },
+  { id: 'cr',   name: 'Conservation and Reuse',            awards: 'MA / PGDip',   scores: { climate: 5, digital: 2, pedagogy: 2 }, subthemes: ['Carbon'],                                                                           desc: 'Focuses on measuring and reducing the carbon footprint of existing buildings.' },
+  { id: 'drl',  name: 'Architecture and Urbanism (DRL)',   awards: 'MArch',        scores: { climate: 1, digital: 5, pedagogy: 2 }, subthemes: ['Parametric Design'],                                                                desc: 'Explores rule-based digital modeling and advanced fabrication techniques.' },
+  { id: 'pc',   name: 'Projective Cities',                 awards: 'Taught MPhil', scores: { climate: 2, digital: 1, pedagogy: 5 }, subthemes: ['Design Research'],                                                                  desc: 'Aims to foster hands-on, practice-led design research.' },
+  { id: 'spd',  name: 'Spatial Performance and Design',    awards: 'MA / MFA',     scores: { climate: 1, digital: 2, pedagogy: 5 }, subthemes: ['Interdisciplinary Methods'],                                                         desc: 'Focuses on working collaboratively in professional, multi-disciplinary teams.' },
+  { id: 'hct',  name: 'History and Critical Thinking',     awards: 'MA',           scores: { climate: 1, digital: 1, pedagogy: 5 }, subthemes: ['Interdisciplinary Methods', 'Knowledge Production'],                               desc: 'Looks at alternative ways to create and share architectural knowledge.' },
 ];
 
 const benchmarkData = [
-  { region: 'United States', institutions: 'Harvard GSD · MIT · Columbia GSAPP', accentClass: 'border-t-amber-400', aaAdvantage: 'The AA offers a more extreme, specialized focus. While US schools offer broad choices, AA programmes like DRL and Emergent Tech act like highly focused research labs. The AA is more practice-led, while US schools are deeply tied to traditional university academia.', sharedFocus: ['Computation & Data', 'History, Theory & Criticism', 'Systems & Urban Scale'] },
-  { region: 'Europe (EU)', institutions: 'ETH Zurich · TU Delft · Politecnico di Milano', accentClass: 'border-t-indigo-400', aaAdvantage: 'EU schools excel heavily in large-scale engineering (ETH) and broad urban planning (TU Delft). The AA stands out by combining this technical rigor with radical design theory and highly experimental aesthetics.', sharedFocus: ['Material & Fabrication Futures', 'Climate & Ecology', 'Heritage & Transformation'] },
-  { region: 'United Kingdom', institutions: 'UCL Bartlett · Cambridge · RCA', accentClass: 'border-t-rose-400', aaAdvantage: 'The AA operates outside the standard UK university system, giving it unmatched freedom to update its curriculum quickly. While the Bartlett shares a strong focus on digital tools, the AA pushes harder on independent, agenda-driven studio culture.', sharedFocus: ['Pedagogy & Research Methods', 'Representation & Media', 'Society, Ethics & Politics'] },
+  { region: 'United States', institutions: 'Harvard GSD · MIT · Columbia GSAPP', aaAdvantage: 'The AA offers a more extreme, specialized focus. AA programmes like DRL and Emergent Tech act like highly focused research labs. The AA is more practice-led, while US schools are deeply tied to traditional university academia.', sharedFocus: ['Computation & Data', 'History, Theory & Criticism', 'Systems & Urban Scale'] },
+  { region: 'Europe (EU)',   institutions: 'ETH Zurich · TU Delft · Politecnico di Milano', aaAdvantage: 'EU schools excel heavily in large-scale engineering (ETH) and broad urban planning (TU Delft). The AA stands out by combining this technical rigor with radical design theory and highly experimental aesthetics.', sharedFocus: ['Material & Fabrication Futures', 'Climate & Ecology', 'Heritage & Transformation'] },
+  { region: 'United Kingdom',institutions: 'UCL Bartlett · Cambridge · RCA', aaAdvantage: 'The AA operates outside the standard UK university system, giving it unmatched freedom to update its curriculum quickly. The AA pushes harder on independent, agenda-driven studio culture than any peer institution.', sharedFocus: ['Pedagogy & Research Methods', 'Representation & Media', 'Society, Ethics & Politics'] },
 ];
 
 const navItems = [
-  { id: 'themes', label: 'By Theme' },
-  { id: 'programmes', label: 'By Programme' },
-  { id: 'gaps', label: 'Gap Analysis', Icon: LayoutGrid },
-  { id: 'trends', label: 'Trends', Icon: TrendingUp },
-  { id: 'benchmarking', label: 'Benchmarking', Icon: Globe },
+  { id: 'themes',       label: 'By Theme' },
+  { id: 'programmes',   label: 'By Programme' },
+  { id: 'gaps',         label: 'Gap Analysis' },
+  { id: 'trends',       label: 'Trends' },
+  { id: 'benchmarking', label: 'Benchmarking' },
 ];
+
+/* ─── Shared primitives ─────────────────────────────────────────────── */
 
 const ScoreBar = ({ score }) => (
   <div className="flex items-center gap-2">
-    <div className="flex gap-0.5">
+    <div className="flex gap-px">
       {[1, 2, 3, 4, 5].map(v => (
-        <div key={v} className={`w-4 h-1.5 rounded-full ${v <= score ? 'bg-zinc-700' : 'bg-zinc-200'}`} />
+        <div key={v} style={{ width: 18, height: 3, backgroundColor: v <= score ? '#1a1d14' : '#e2e4d5' }} />
       ))}
     </div>
-    <span className="text-[11px] tabular-nums text-zinc-400 font-medium">{score}/5</span>
+    <span className="font-label tabular-nums" style={{ fontSize: 10, color: '#446277' }}>{score}/5</span>
   </div>
 );
 
 const Tag = ({ active, children }) => (
-  <span className={`inline-flex items-center text-[10px] px-2 py-0.5 rounded-full font-medium border ${
-    active
-      ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
-      : 'bg-rose-50 text-rose-500 border-rose-100'
-  }`}>
+  <span
+    className="font-label font-medium"
+    style={{
+      fontSize: 10,
+      padding: '2px 8px',
+      backgroundColor: active ? '#c7e6ff' : '#e2e4d5',
+      color: active ? '#1a1d14' : '#446277',
+      display: 'inline-flex',
+      alignItems: 'center',
+    }}
+  >
     {active ? `✓ ${children}` : `✕ ${children}`}
   </span>
 );
+
+const SectionLabel = ({ children, light = false }) => (
+  <p
+    className="font-label font-bold uppercase"
+    style={{ fontSize: 9, letterSpacing: '0.18em', color: light ? 'rgba(26,29,20,0.35)' : '#446277', marginBottom: 20 }}
+  >
+    {children}
+  </p>
+);
+
+/* ─── App ───────────────────────────────────────────────────────────── */
 
 export default function App() {
   const [viewMode, setViewMode] = useState('benchmarking');
@@ -69,12 +93,12 @@ export default function App() {
   const [selectedProgramme, setSelectedProgramme] = useState(programmes[0]);
 
   const themeStats = themes.map(theme => {
-    const scores = programmes.map(p => p.scores[theme.id] || 0).filter(s => s > 0);
-    const avgScore = scores.length ? scores.reduce((a, b) => a + b, 0) / programmes.length : 0;
-    return { ...theme, avgScore, hasData: scores.length > 0 };
+    const scored = programmes.filter(p => p.scores[theme.id]);
+    const avg = scored.length ? scored.reduce((s, p) => s + p.scores[theme.id], 0) / programmes.length : 0;
+    return { ...theme, avgScore: avg, hasData: scored.length > 0 };
   }).sort((a, b) => b.avgScore - a.avgScore);
 
-  const evaluatedStats = themeStats.filter(t => t.hasData);
+  const evaluatedStats   = themeStats.filter(t => t.hasData);
   const unevaluatedStats = themeStats.filter(t => !t.hasData);
 
   const subthemeCounts = {};
@@ -82,127 +106,142 @@ export default function App() {
   const topSubthemes = Object.entries(subthemeCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
 
   return (
-    <div className="min-h-screen bg-[#F5F4F0] p-4 md:p-8 font-sans">
-      <div className="max-w-5xl mx-auto space-y-4">
+    <div className="blueprint-grid min-h-screen">
 
-        {/* ── Header ── */}
-        <header className="bg-zinc-950 rounded-2xl overflow-hidden shadow-xl">
-          <div className="px-6 pt-6 pb-5">
+      {/* ── Header ── */}
+      <header style={{ backgroundColor: '#000000', position: 'sticky', top: 0, zIndex: 10 }}>
+        <div style={{ maxWidth: 1024, margin: '0 auto', padding: '20px 24px 0' }}>
 
-            {/* Brand row */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shrink-0 shadow-sm">
-                  <span className="text-zinc-950 font-black text-base tracking-tighter select-none">AA</span>
-                </div>
-                <div>
-                  <h1 className="text-white font-semibold text-base leading-snug tracking-tight">
-                    Postgraduate Programme Analysis
-                  </h1>
-                  <p className="text-zinc-500 text-xs mt-0.5">Architectural Association School of Architecture</p>
-                </div>
+          {/* Brand row */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <div style={{ width: 36, height: 36, backgroundColor: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span style={{ color: '#000000', fontWeight: 900, fontSize: 13, letterSpacing: '-0.05em', userSelect: 'none' }}>AA</span>
               </div>
-              <div className="hidden md:flex items-center gap-5">
-                <div className="text-center">
-                  <div className="text-white font-bold text-lg leading-none">{programmes.length}</div>
-                  <div className="text-zinc-500 text-[10px] uppercase tracking-wider mt-0.5">Programmes</div>
-                </div>
-                <div className="w-px h-8 bg-zinc-800" />
-                <div className="text-center">
-                  <div className="text-white font-bold text-lg leading-none">{themes.length}</div>
-                  <div className="text-zinc-500 text-[10px] uppercase tracking-wider mt-0.5">Themes</div>
-                </div>
+              <div>
+                <h1 style={{ color: '#ffffff', fontWeight: 700, fontSize: 15, lineHeight: 1.2, letterSpacing: '-0.02em', margin: 0 }}>
+                  Postgraduate Programme Analysis
+                </h1>
+                <p className="font-label" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 4 }}>
+                  Architectural Association School of Architecture
+                </p>
               </div>
             </div>
-
-            {/* Nav tabs */}
-            <div className="flex flex-wrap gap-1">
-              {navItems.map(({ id, label, Icon }) => {
-                const active = viewMode === id;
-                return (
-                  <button
-                    key={id}
-                    onClick={() => setViewMode(id)}
-                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
-                      active
-                        ? 'bg-white text-zinc-950 shadow-sm'
-                        : 'text-zinc-400 hover:text-white hover:bg-white/10'
-                    }`}
-                  >
-                    {Icon && <Icon size={13} />}
-                    {label}
-                  </button>
-                );
-              })}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ color: '#ffffff', fontWeight: 700, fontSize: 22, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{programmes.length}</div>
+                <div className="font-label" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 3 }}>Programmes</div>
+              </div>
+              <div style={{ width: 1, height: 28, backgroundColor: 'rgba(255,255,255,0.1)' }} />
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ color: '#ffffff', fontWeight: 700, fontSize: 22, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{themes.length}</div>
+                <div className="font-label" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 3 }}>Themes</div>
+              </div>
             </div>
           </div>
-        </header>
+
+          {/* Nav tabs */}
+          <div style={{ display: 'flex', gap: 2 }}>
+            {navItems.map(({ id, label }) => {
+              const active = viewMode === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => setViewMode(id)}
+                  className="font-label"
+                  style={{
+                    padding: '9px 16px',
+                    fontSize: 11,
+                    fontWeight: active ? 700 : 500,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    border: 'none',
+                    transition: 'background 0.1s, color 0.1s',
+                    backgroundColor: active ? '#ffffff' : 'transparent',
+                    color: active ? '#000000' : 'rgba(255,255,255,0.38)',
+                  }}
+                  onMouseEnter={e => { if (!active) { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = 'rgba(255,255,255,0.75)'; } }}
+                  onMouseLeave={e => { if (!active) { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.38)'; } }}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        {/* Blueprint cyan rule */}
+        <div style={{ height: 2, backgroundColor: '#c7e6ff', marginTop: 0 }} />
+      </header>
+
+      {/* ── Main ── */}
+      <main style={{ maxWidth: 1024, margin: '0 auto', padding: '32px 24px' }}>
 
         {/* ── Benchmarking ── */}
         {viewMode === 'benchmarking' && (
-          <div className="space-y-4">
-            <div className="bg-white rounded-2xl shadow-sm ring-1 ring-black/[0.06] p-6 md:p-8">
-              <div className="flex items-start gap-4 mb-8">
-                <div className="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
-                  <Trophy size={20} className="text-amber-500" />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-zinc-900">Global Positioning</h2>
-                  <p className="text-zinc-500 text-sm mt-1 leading-relaxed max-w-2xl">
-                    How the AA's postgraduate programmes compare against world-leading architecture schools, broken down by region.
-                  </p>
-                </div>
-              </div>
+          <div>
+            {/* Global Positioning card */}
+            <div style={{ backgroundColor: '#ffffff', padding: '48px', boxShadow: '0 30px 60px rgba(26,29,20,0.05)', marginBottom: 0 }}>
+              <SectionLabel>Global Positioning</SectionLabel>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: '#1a1d14', letterSpacing: '-0.03em', margin: '0 0 10px' }}>
+                How the AA Compares Globally
+              </h2>
+              <p style={{ fontSize: 14, color: 'rgba(26,29,20,0.55)', lineHeight: 1.7, marginBottom: 40, maxWidth: 560 }}>
+                A comparative analysis of the AA's postgraduate programmes against world-leading architecture schools, by region.
+              </p>
 
-              <div className="grid md:grid-cols-3 gap-4">
-                {benchmarkData.map((data) => (
-                  <div key={data.region} className={`bg-zinc-50 border border-zinc-200 border-t-[3px] ${data.accentClass} rounded-xl p-5 flex flex-col`}>
-                    <div className="flex items-center gap-2 font-bold text-zinc-900 text-[15px] mb-0.5">
-                      <MapPin size={14} className="text-zinc-400 shrink-0" />
-                      {data.region}
-                    </div>
-                    <p className="text-[11px] text-zinc-400 mb-5 pl-5">{data.institutions}</p>
-
-                    <div className="flex-1 mb-5">
-                      <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">AA Advantage</p>
-                      <p className="text-[13px] text-zinc-700 leading-relaxed">{data.aaAdvantage}</p>
-                    </div>
-
-                    <div>
-                      <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">Shared Focus</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {data.sharedFocus.map(focus => {
-                          const t = themes.find(th => th.name === focus);
-                          return (
-                            <span key={focus} className={`text-[10px] px-2.5 py-1 rounded-full bg-white border border-zinc-200 font-medium shadow-sm ${t ? t.color : 'text-zinc-600'}`}>
-                              {focus}
-                            </span>
-                          );
-                        })}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+                {benchmarkData.map((data, i) => {
+                  const topColors = ['#000000', '#446277', '#c7e6ff'];
+                  return (
+                    <div key={data.region} style={{ backgroundColor: '#f9fbec', borderTop: `4px solid ${topColors[i]}`, padding: 20, display: 'flex', flexDirection: 'column' }}>
+                      <div className="font-label" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#1a1d14', marginBottom: 4 }}>
+                        {data.region}
+                      </div>
+                      <div className="font-label" style={{ fontSize: 11, color: 'rgba(26,29,20,0.4)', marginBottom: 20 }}>
+                        {data.institutions}
+                      </div>
+                      <div style={{ flex: 1, marginBottom: 20 }}>
+                        <div className="font-label" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,29,20,0.3)', marginBottom: 8 }}>
+                          AA Advantage
+                        </div>
+                        <p style={{ fontSize: 13, color: 'rgba(26,29,20,0.75)', lineHeight: 1.7 }}>{data.aaAdvantage}</p>
+                      </div>
+                      <div>
+                        <div className="font-label" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,29,20,0.3)', marginBottom: 8 }}>
+                          Shared Focus
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                          {data.sharedFocus.map(focus => {
+                            const t = themes.find(th => th.name === focus);
+                            return (
+                              <span key={focus} className={`font-label font-medium ${t ? t.color : ''}`}
+                                style={{ fontSize: 10, padding: '3px 8px', backgroundColor: '#ffffff', display: 'inline-block' }}>
+                                {focus}
+                              </span>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
-            {/* Key Takeaways */}
-            <div className="bg-white rounded-2xl shadow-sm ring-1 ring-black/[0.06] p-6 md:p-8">
-              <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-5">Key Takeaways</p>
-              <div className="grid md:grid-cols-3 gap-6">
+            {/* Key Takeaways — background shift, no border */}
+            <div style={{ backgroundColor: '#e2e4d5', padding: '48px' }}>
+              <SectionLabel light>Key Takeaways</SectionLabel>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40 }}>
                 {[
-                  { Icon: Monitor, bg: 'bg-blue-50', color: 'text-blue-600', title: 'World-Class Computation', body: 'DRL and Emergent Technologies match or exceed MIT and ETH Zurich in digital fabrication and parametric design output.' },
-                  { Icon: Leaf, bg: 'bg-emerald-50', color: 'text-emerald-600', title: 'Applied Sustainability', body: 'Where EU schools approach it as large-scale engineering, the AA (via SED) focuses on simulation-led tools for immediate real-world impact.' },
-                  { Icon: BookOpen, bg: 'bg-purple-50', color: 'text-purple-600', title: 'Independent Pedagogy', body: "Free from traditional university structures, the AA's curriculum adapts far faster to emerging technologies such as AI." },
-                ].map(({ Icon, bg, color, title, body }) => (
-                  <div key={title} className="flex gap-3.5">
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${bg}`}>
-                      <Icon size={16} className={color} />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-zinc-900">{title}</p>
-                      <p className="text-[13px] text-zinc-500 mt-1.5 leading-relaxed">{body}</p>
-                    </div>
+                  { n: '01', title: 'World-Class Computation', body: 'DRL and Emergent Technologies match or exceed MIT and ETH Zurich in digital fabrication and parametric design output.' },
+                  { n: '02', title: 'Applied Sustainability',  body: 'Where EU schools treat it as large-scale engineering, the AA (via SED) focuses on simulation-led practice tools for direct real-world impact.' },
+                  { n: '03', title: 'Independent Pedagogy',   body: "Free from traditional university structures, the AA's curriculum adapts far faster to emerging technologies such as AI." },
+                ].map(({ n, title, body }) => (
+                  <div key={n}>
+                    <div className="font-label" style={{ fontSize: 36, fontWeight: 700, color: 'rgba(26,29,20,0.12)', lineHeight: 1, marginBottom: 12, fontVariantNumeric: 'tabular-nums' }}>{n}</div>
+                    <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1d14', marginBottom: 8 }}>{title}</p>
+                    <p style={{ fontSize: 13, color: 'rgba(26,29,20,0.55)', lineHeight: 1.7 }}>{body}</p>
                   </div>
                 ))}
               </div>
@@ -212,45 +251,45 @@ export default function App() {
 
         {/* ── Gap Analysis ── */}
         {viewMode === 'gaps' && (
-          <div className="bg-white rounded-2xl shadow-sm ring-1 ring-black/[0.06] overflow-hidden">
-            <div className="px-6 py-5 border-b border-zinc-100">
-              <h2 className="text-lg font-bold text-zinc-900 flex items-center gap-2">
-                <LayoutGrid size={17} className="text-rose-500" />
-                Gap Analysis Matrix
-              </h2>
-              <p className="text-zinc-400 text-sm mt-1">Subthemes not covered by each programme are flagged below.</p>
+          <div style={{ backgroundColor: '#ffffff', boxShadow: '0 30px 60px rgba(26,29,20,0.05)', overflow: 'hidden' }}>
+            <div style={{ backgroundColor: '#e2e4d5', padding: '24px 32px' }}>
+              <SectionLabel light>Curriculum Coverage</SectionLabel>
+              <h2 style={{ fontSize: 22, fontWeight: 700, color: '#1a1d14', letterSpacing: '-0.02em', margin: 0 }}>Gap Analysis Matrix</h2>
+              <p style={{ fontSize: 13, color: 'rgba(26,29,20,0.5)', marginTop: 6, lineHeight: 1.6 }}>Subthemes not covered by each programme are flagged below.</p>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[900px] text-left">
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', minWidth: 900, borderCollapse: 'collapse' }}>
                 <thead>
-                  <tr className="bg-zinc-50 border-b border-zinc-100">
-                    <th className="px-5 py-3.5 text-xs font-semibold text-zinc-500 whitespace-nowrap">Programme</th>
+                  <tr style={{ backgroundColor: '#f9fbec' }}>
+                    <th style={{ padding: '14px 20px', textAlign: 'left' }}>
+                      <span className="font-label" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#446277' }}>Programme</span>
+                    </th>
                     {themes.map(theme => (
-                      <th key={theme.id} className={`px-3 py-3.5 text-[11px] font-semibold ${theme.color} whitespace-nowrap`}>{theme.name}</th>
+                      <th key={theme.id} style={{ padding: '14px 10px', textAlign: 'left' }}>
+                        <span className={`font-label ${theme.color}`} style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{theme.name}</span>
+                      </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {programmes.map((prog, i) => (
-                    <tr key={prog.id} className={`border-b border-zinc-50 transition-colors hover:bg-zinc-50/70 ${i % 2 === 0 ? '' : 'bg-zinc-50/30'}`}>
-                      <td className="px-5 py-4 align-top">
-                        <div className="font-semibold text-zinc-900 text-sm whitespace-nowrap">{prog.name}</div>
-                        <div className="text-[11px] text-zinc-400 mt-0.5">{prog.awards}</div>
+                    <tr key={prog.id} style={{ backgroundColor: i % 2 === 0 ? '#ffffff' : '#f9fbec' }}>
+                      <td style={{ padding: '14px 20px', verticalAlign: 'top' }}>
+                        <div style={{ fontWeight: 700, fontSize: 13, color: '#1a1d14', whiteSpace: 'nowrap' }}>{prog.name}</div>
+                        <div className="font-label" style={{ fontSize: 10, color: '#446277', marginTop: 2 }}>{prog.awards}</div>
                       </td>
                       {themes.map(theme => {
                         const missing = theme.subthemes.filter(st => !prog.subthemes.includes(st));
                         return (
-                          <td key={theme.id} className="px-3 py-4 align-top">
+                          <td key={theme.id} style={{ padding: '12px 10px', verticalAlign: 'top' }}>
                             {missing.length === 0 ? (
-                              <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 whitespace-nowrap">
-                                ✓ Full
-                              </span>
+                              <span className="font-label" style={{ fontSize: 10, fontWeight: 600, color: '#1a1d14', backgroundColor: '#c7e6ff', padding: '2px 8px', display: 'inline-block' }}>✓ Full</span>
                             ) : (
-                              <div className="space-y-1">
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                                 {missing.map(st => (
-                                  <div key={st} className="text-[10px] font-medium text-rose-500 bg-rose-50 px-2 py-1 rounded-md border border-rose-100 whitespace-nowrap">
+                                  <span key={st} className="font-label" style={{ fontSize: 10, fontWeight: 500, color: '#446277', backgroundColor: '#e2e4d5', padding: '2px 8px', whiteSpace: 'nowrap', display: 'inline-block' }}>
                                     ✕ {st}
-                                  </div>
+                                  </span>
                                 ))}
                               </div>
                             )}
@@ -267,28 +306,29 @@ export default function App() {
 
         {/* ── Trends ── */}
         {viewMode === 'trends' && (
-          <div className="grid md:grid-cols-2 gap-4">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
 
-            {/* Theme strength chart */}
-            <div className="bg-white rounded-2xl shadow-sm ring-1 ring-black/[0.06] p-6 md:p-8">
-              <h2 className="text-lg font-bold text-zinc-900">Theme Strength</h2>
-              <p className="text-zinc-400 text-sm mt-1 mb-7">Average programme score (0–5 scale)</p>
+            {/* Theme Strength */}
+            <div style={{ backgroundColor: '#ffffff', padding: '40px', boxShadow: '0 30px 60px rgba(26,29,20,0.05)' }}>
+              <SectionLabel>Theme Strength</SectionLabel>
+              <h2 style={{ fontSize: 22, fontWeight: 700, color: '#1a1d14', letterSpacing: '-0.02em', margin: '0 0 6px' }}>Dominant Themes</h2>
+              <p style={{ fontSize: 13, color: 'rgba(26,29,20,0.45)', lineHeight: 1.6, marginBottom: 32 }}>Average programme score, 0–5 scale.</p>
 
-              <div className="space-y-4 mb-7">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
                 {evaluatedStats.map(stat => {
                   const Icon = stat.icon;
                   const pct = (stat.avgScore / 5) * 100;
                   return (
                     <div key={stat.id}>
-                      <div className="flex justify-between items-center mb-1.5">
-                        <span className="flex items-center gap-2 text-sm font-medium text-zinc-700">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 500, color: '#1a1d14' }}>
                           <Icon size={13} className={stat.color} />
                           {stat.name}
                         </span>
-                        <span className="text-sm font-bold text-zinc-900 tabular-nums">{stat.avgScore.toFixed(1)}</span>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: '#1a1d14', fontVariantNumeric: 'tabular-nums' }}>{stat.avgScore.toFixed(1)}</span>
                       </div>
-                      <div className="relative h-2 bg-zinc-100 rounded-full overflow-hidden">
-                        <div className={`absolute inset-y-0 left-0 ${stat.barColor} rounded-full transition-all duration-500`} style={{ width: `${pct}%` }} />
+                      <div style={{ height: 3, backgroundColor: '#e2e4d5', position: 'relative' }}>
+                        <div className={stat.barColor} style={{ position: 'absolute', inset: 0, right: `${100 - pct}%` }} />
                       </div>
                     </div>
                   );
@@ -296,14 +336,16 @@ export default function App() {
               </div>
 
               {unevaluatedStats.length > 0 && (
-                <div className="pt-5 border-t border-zinc-100">
-                  <p className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest mb-2.5">Not scored in current data</p>
-                  <div className="flex flex-wrap gap-1.5">
+                <div style={{ marginTop: 32, paddingTop: 24, borderTop: '1px solid #e2e4d5' }}>
+                  <div className="font-label" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(26,29,20,0.25)', marginBottom: 10 }}>
+                    Not Evaluated in Current Dataset
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                     {unevaluatedStats.map(t => {
                       const Icon = t.icon;
                       return (
-                        <span key={t.id} className="inline-flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full bg-zinc-50 border border-zinc-100 text-zinc-400">
-                          <Icon size={11} />
+                        <span key={t.id} className="font-label" style={{ fontSize: 10, padding: '3px 8px', backgroundColor: '#f9fbec', color: 'rgba(26,29,20,0.35)', display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                          <Icon size={10} />
                           {t.name}
                         </span>
                       );
@@ -313,24 +355,25 @@ export default function App() {
               )}
             </div>
 
-            {/* Top subthemes */}
-            <div className="bg-white rounded-2xl shadow-sm ring-1 ring-black/[0.06] p-6 md:p-8">
-              <h2 className="text-lg font-bold text-zinc-900">Top Subthemes</h2>
-              <p className="text-zinc-400 text-sm mt-1 mb-7">Programmes that explicitly cover each area.</p>
+            {/* Top Subthemes */}
+            <div style={{ backgroundColor: '#ffffff', padding: '40px', boxShadow: '0 30px 60px rgba(26,29,20,0.05)' }}>
+              <SectionLabel>Subtheme Frequency</SectionLabel>
+              <h2 style={{ fontSize: 22, fontWeight: 700, color: '#1a1d14', letterSpacing: '-0.02em', margin: '0 0 6px' }}>Top Subthemes</h2>
+              <p style={{ fontSize: 13, color: 'rgba(26,29,20,0.45)', lineHeight: 1.6, marginBottom: 32 }}>Programmes that explicitly cover each focus area.</p>
 
-              <div className="space-y-3">
-                {topSubthemes.map(([name, count], index) => {
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {topSubthemes.map(([name, count], i) => {
                   const pct = (count / programmes.length) * 100;
                   return (
-                    <div key={name} className="flex items-center gap-3">
-                      <span className="w-5 text-[11px] font-bold text-zinc-300 tabular-nums text-right shrink-0">{index + 1}</span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex justify-between items-baseline mb-1">
-                          <span className="text-sm font-medium text-zinc-800 truncate">{name}</span>
-                          <span className="text-[11px] text-zinc-400 ml-3 shrink-0 tabular-nums">{count}/{programmes.length}</span>
+                    <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <span className="font-label" style={{ width: 20, fontSize: 10, fontWeight: 700, color: 'rgba(26,29,20,0.2)', textAlign: 'right', flexShrink: 0, fontVariantNumeric: 'tabular-nums' }}>{i + 1}</span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5 }}>
+                          <span style={{ fontSize: 13, fontWeight: 500, color: '#1a1d14', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{name}</span>
+                          <span className="font-label" style={{ fontSize: 10, color: '#446277', marginLeft: 8, flexShrink: 0 }}>{count}/{programmes.length}</span>
                         </div>
-                        <div className="relative h-1.5 bg-zinc-100 rounded-full overflow-hidden">
-                          <div className="absolute inset-y-0 left-0 bg-blue-400 rounded-full" style={{ width: `${pct}%` }} />
+                        <div style={{ height: 2, backgroundColor: '#e2e4d5', position: 'relative' }}>
+                          <div style={{ position: 'absolute', inset: 0, right: `${100 - pct}%`, backgroundColor: '#446277' }} />
                         </div>
                       </div>
                     </div>
@@ -341,138 +384,163 @@ export default function App() {
           </div>
         )}
 
-        {/* ── Browse by Theme / Programme ── */}
+        {/* ── Browse: Theme / Programme ── */}
         {(viewMode === 'themes' || viewMode === 'programmes') && (
-          <div className="grid md:grid-cols-[280px_1fr] gap-4">
+          <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 16 }}>
 
-            {/* Sidebar */}
-            <div className="bg-white rounded-2xl shadow-sm ring-1 ring-black/[0.06] p-2.5 h-[640px] overflow-y-auto">
-              {viewMode === 'themes' ? themes.map(theme => {
-                const Icon = theme.icon;
-                const active = selectedTheme.id === theme.id;
-                return (
-                  <button
-                    key={theme.id}
-                    onClick={() => setSelectedTheme(theme)}
-                    className={`w-full text-left px-3 py-2.5 rounded-xl flex items-center gap-3 transition-all mb-0.5 ${
-                      active ? `${theme.bg} ${theme.color}` : 'hover:bg-zinc-50 text-zinc-600'
-                    }`}
-                  >
-                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${active ? 'bg-white/60' : 'bg-zinc-100'}`}>
-                      <Icon size={14} className={active ? theme.color : 'text-zinc-400'} />
-                    </div>
-                    <span className="text-[13px] font-medium leading-snug flex-1">{theme.name}</span>
-                    {active && <ChevronRight size={14} className={`shrink-0 ${theme.color}`} />}
-                  </button>
-                );
-              }) : programmes.map(prog => {
-                const active = selectedProgramme.id === prog.id;
-                return (
-                  <button
-                    key={prog.id}
-                    onClick={() => setSelectedProgramme(prog)}
-                    className={`w-full text-left px-3 py-3 rounded-xl transition-all mb-0.5 ${
-                      active ? 'bg-zinc-900' : 'hover:bg-zinc-50'
-                    }`}
-                  >
-                    <span className={`block text-[13px] font-medium leading-snug ${active ? 'text-white' : 'text-zinc-800'}`}>{prog.name}</span>
-                    <span className={`text-[11px] mt-0.5 block ${active ? 'text-zinc-500' : 'text-zinc-400'}`}>{prog.awards}</span>
-                  </button>
-                );
-              })}
+            {/* Sidebar — recessed (surface-container-highest) */}
+            <div style={{ backgroundColor: '#e2e4d5', height: 660, display: 'flex', overflow: 'hidden' }}>
+              {/* Vertical editorial label */}
+              <div style={{ width: 32, backgroundColor: '#1a1d14', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <span className="font-label text-vertical" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>
+                  {viewMode === 'themes' ? 'Themes' : 'Programmes'}
+                </span>
+              </div>
+              {/* List */}
+              <div style={{ flex: 1, overflowY: 'auto', padding: '8px 6px' }}>
+                {viewMode === 'themes' ? themes.map(theme => {
+                  const Icon = theme.icon;
+                  const active = selectedTheme.id === theme.id;
+                  return (
+                    <button
+                      key={theme.id}
+                      onClick={() => setSelectedTheme(theme)}
+                      style={{
+                        width: '100%', textAlign: 'left', padding: '10px 12px',
+                        display: 'flex', alignItems: 'center', gap: 10,
+                        backgroundColor: active ? '#ffffff' : 'transparent',
+                        border: 'none', cursor: 'pointer',
+                        marginBottom: 2, transition: 'background 0.1s',
+                      }}
+                      onMouseEnter={e => { if (!active) e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.4)'; }}
+                      onMouseLeave={e => { if (!active) e.currentTarget.style.backgroundColor = 'transparent'; }}
+                    >
+                      <Icon size={13} className={active ? theme.color : 'text-[#446277] opacity-60'} style={{ flexShrink: 0 }} />
+                      <span style={{ fontSize: 12, fontWeight: active ? 700 : 500, color: active ? '#1a1d14' : 'rgba(26,29,20,0.6)', lineHeight: 1.3 }}>
+                        {theme.name}
+                      </span>
+                    </button>
+                  );
+                }) : programmes.map(prog => {
+                  const active = selectedProgramme.id === prog.id;
+                  return (
+                    <button
+                      key={prog.id}
+                      onClick={() => setSelectedProgramme(prog)}
+                      style={{
+                        width: '100%', textAlign: 'left', padding: '10px 12px',
+                        backgroundColor: active ? '#000000' : 'transparent',
+                        border: 'none', cursor: 'pointer',
+                        marginBottom: 2, transition: 'background 0.1s',
+                      }}
+                      onMouseEnter={e => { if (!active) e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.4)'; }}
+                      onMouseLeave={e => { if (!active) e.currentTarget.style.backgroundColor = 'transparent'; }}
+                    >
+                      <span style={{ display: 'block', fontSize: 12, fontWeight: active ? 700 : 500, color: active ? '#ffffff' : 'rgba(26,29,20,0.65)', lineHeight: 1.3 }}>
+                        {prog.name}
+                      </span>
+                      <span className="font-label" style={{ display: 'block', fontSize: 10, color: active ? 'rgba(255,255,255,0.45)' : '#446277', marginTop: 2 }}>
+                        {prog.awards}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* Detail panel */}
-            <div className="bg-white rounded-2xl shadow-sm ring-1 ring-black/[0.06] p-6 md:p-8 h-[640px] overflow-y-auto">
+            {/* Detail panel — highlighted (surface-container-lowest) */}
+            <div style={{ backgroundColor: '#ffffff', height: 660, overflowY: 'auto', padding: '40px 40px', boxShadow: '0 30px 60px rgba(26,29,20,0.05)' }}>
 
               {viewMode === 'themes' ? (
-                <div className="space-y-7">
+                <div>
                   {/* Theme header */}
-                  <div className="flex items-start gap-5 pb-6 border-b border-zinc-100">
-                    <div className={`p-4 rounded-2xl ${selectedTheme.bg} shrink-0`}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, paddingBottom: 28, marginBottom: 32, borderBottom: '1px solid #e2e4d5' }}>
+                    <div style={{ padding: 14, backgroundColor: '#f9fbec', flexShrink: 0 }}>
                       <selectedTheme.icon size={28} className={selectedTheme.color} />
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-zinc-900">{selectedTheme.name}</h2>
-                      <p className="text-zinc-500 text-sm mt-1.5 leading-relaxed">{selectedTheme.desc}</p>
-                      <div className="flex flex-wrap gap-1.5 mt-3">
+                      <h2 style={{ fontSize: 22, fontWeight: 700, color: '#1a1d14', letterSpacing: '-0.02em', margin: '0 0 8px' }}>
+                        {selectedTheme.name}
+                      </h2>
+                      <p style={{ fontSize: 13, color: 'rgba(26,29,20,0.55)', lineHeight: 1.7, margin: '0 0 14px' }}>
+                        {selectedTheme.desc}
+                      </p>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                         {selectedTheme.subthemes.map(st => (
-                          <span key={st} className={`text-[11px] px-2.5 py-1 rounded-full ${selectedTheme.bg} ${selectedTheme.color} font-medium`}>{st}</span>
+                          <span key={st} className="font-label font-medium" style={{ fontSize: 10, padding: '3px 8px', backgroundColor: '#c7e6ff', color: '#1a1d14' }}>{st}</span>
                         ))}
                       </div>
                     </div>
                   </div>
 
-                  <div>
-                    <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-4">Programme Relevance</p>
-                    <div className="space-y-3">
-                      {[...programmes]
-                        .sort((a, b) => (b.scores[selectedTheme.id] || 0) - (a.scores[selectedTheme.id] || 0))
-                        .map(prog => {
-                          const score = prog.scores[selectedTheme.id] || 0;
-                          const prominent = score >= 3;
-                          return (
-                            <div key={prog.id} className={`p-4 rounded-xl border transition-all ${prominent ? 'border-zinc-200 bg-zinc-50/60' : 'border-zinc-100 bg-white opacity-50'}`}>
-                              <div className="flex justify-between items-start mb-3">
-                                <div className="mr-3">
-                                  <h4 className={`font-semibold text-sm ${prominent ? 'text-zinc-900' : 'text-zinc-500'}`}>{prog.name}</h4>
-                                  {prominent && <p className="text-[12px] text-zinc-500 mt-1 leading-relaxed">{prog.desc}</p>}
-                                </div>
-                                <span className="text-[11px] font-medium text-zinc-400 bg-white px-2.5 py-0.5 rounded-lg border border-zinc-200 shrink-0">{prog.awards}</span>
-                              </div>
-                              <div className="flex items-center justify-between gap-3 flex-wrap">
-                                <ScoreBar score={score} />
-                                <div className="flex flex-wrap gap-1">
-                                  {selectedTheme.subthemes.map(st => (
-                                    <Tag key={st} active={prog.subthemes.includes(st)}>{st}</Tag>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-7">
-                  {/* Programme header */}
-                  <div className="pb-6 border-b border-zinc-100">
-                    <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider bg-zinc-100 px-2.5 py-1 rounded-full">
-                      {selectedProgramme.awards}
-                    </span>
-                    <h2 className="text-2xl font-bold text-zinc-900 mt-3">{selectedProgramme.name}</h2>
-                    <p className="text-zinc-500 mt-2 text-[15px] leading-relaxed">{selectedProgramme.desc}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-4">Theme Coverage</p>
-                    <div className="space-y-2">
-                      {themes.map(theme => {
-                        const score = selectedProgramme.scores[theme.id] || 0;
-                        const Icon = theme.icon;
+                  <SectionLabel>Programme Relevance</SectionLabel>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    {[...programmes]
+                      .sort((a, b) => (b.scores[selectedTheme.id] || 0) - (a.scores[selectedTheme.id] || 0))
+                      .map(prog => {
+                        const score = prog.scores[selectedTheme.id] || 0;
                         const prominent = score >= 3;
                         return (
-                          <div key={theme.id} className={`px-4 py-3.5 rounded-xl flex items-start gap-3.5 transition-all ${prominent ? theme.bg : 'bg-zinc-50/60 opacity-55'}`}>
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${prominent ? 'bg-white/50' : 'bg-zinc-100'}`}>
-                              <Icon size={15} className={prominent ? theme.color : 'text-zinc-400'} />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between gap-2 mb-2">
-                                <h4 className={`font-semibold text-sm ${prominent ? theme.color : 'text-zinc-500'}`}>{theme.name}</h4>
-                                <ScoreBar score={score} />
+                          <div key={prog.id} style={{ padding: 16, backgroundColor: prominent ? '#f9fbec' : '#ffffff', opacity: prominent ? 1 : 0.5 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                              <div style={{ marginRight: 12 }}>
+                                <h4 style={{ fontWeight: 700, fontSize: 13, color: '#1a1d14', margin: '0 0 4px' }}>{prog.name}</h4>
+                                {prominent && <p style={{ fontSize: 12, color: 'rgba(26,29,20,0.5)', lineHeight: 1.6, margin: 0 }}>{prog.desc}</p>}
                               </div>
-                              {prominent && <p className="text-[12px] text-zinc-600 mb-2.5 leading-relaxed">{theme.desc}</p>}
-                              <div className="flex flex-wrap gap-1">
-                                {theme.subthemes.map(st => (
-                                  <Tag key={st} active={selectedProgramme.subthemes.includes(st)}>{st}</Tag>
+                              <span className="font-label" style={{ fontSize: 10, color: '#446277', backgroundColor: '#e2e4d5', padding: '3px 8px', flexShrink: 0 }}>{prog.awards}</span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+                              <ScoreBar score={score} />
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                                {selectedTheme.subthemes.map(st => (
+                                  <Tag key={st} active={prog.subthemes.includes(st)}>{st}</Tag>
                                 ))}
                               </div>
                             </div>
                           </div>
                         );
                       })}
-                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  {/* Programme header */}
+                  <div style={{ paddingBottom: 28, marginBottom: 32, borderBottom: '1px solid #e2e4d5' }}>
+                    <span className="font-label font-bold" style={{ fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', backgroundColor: '#e2e4d5', color: '#446277', padding: '4px 10px', display: 'inline-block', marginBottom: 16 }}>
+                      {selectedProgramme.awards}
+                    </span>
+                    <h2 style={{ fontSize: 26, fontWeight: 700, color: '#1a1d14', letterSpacing: '-0.03em', margin: '0 0 10px' }}>
+                      {selectedProgramme.name}
+                    </h2>
+                    <p style={{ fontSize: 14, color: 'rgba(26,29,20,0.55)', lineHeight: 1.7, margin: 0 }}>{selectedProgramme.desc}</p>
+                  </div>
+
+                  <SectionLabel>Theme Coverage</SectionLabel>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {themes.map(theme => {
+                      const score = selectedProgramme.scores[theme.id] || 0;
+                      const Icon = theme.icon;
+                      const prominent = score >= 3;
+                      return (
+                        <div key={theme.id} style={{ padding: '14px 16px', backgroundColor: prominent ? '#f9fbec' : '#ffffff', display: 'flex', alignItems: 'flex-start', gap: 14, opacity: prominent ? 1 : 0.45 }}>
+                          <div style={{ width: 30, height: 30, backgroundColor: prominent ? '#e2e4d5' : '#f9fbec', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                            <Icon size={14} className={prominent ? theme.color : ''} style={{ color: prominent ? undefined : 'rgba(26,29,20,0.3)' }} />
+                          </div>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                              <h4 className={prominent ? theme.color : ''} style={{ fontWeight: 700, fontSize: 13, margin: 0, color: prominent ? undefined : 'rgba(26,29,20,0.4)' }}>{theme.name}</h4>
+                              <ScoreBar score={score} />
+                            </div>
+                            {prominent && <p style={{ fontSize: 12, color: 'rgba(26,29,20,0.5)', lineHeight: 1.6, margin: '0 0 10px' }}>{theme.desc}</p>}
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                              {theme.subthemes.map(st => (
+                                <Tag key={st} active={selectedProgramme.subthemes.includes(st)}>{st}</Tag>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -480,7 +548,7 @@ export default function App() {
           </div>
         )}
 
-      </div>
+      </main>
     </div>
   );
 }
