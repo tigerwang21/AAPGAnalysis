@@ -116,7 +116,7 @@ export default function App() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               <div style={{ width: 36, height: 36, backgroundColor: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
-                <img src={`${import.meta.env.BASE_URL}AA.png`} alt="AA" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                <img src={`${import.meta.env.BASE_URL}AA.png`} alt="AA" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div>
                 <h1 style={{ color: '#ffffff', fontWeight: 700, fontSize: 15, lineHeight: 1.2, letterSpacing: '-0.02em', margin: 0 }}>
