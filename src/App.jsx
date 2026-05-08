@@ -115,8 +115,8 @@ export default function App() {
           {/* Brand row */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{ width: 36, height: 36, backgroundColor: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <span style={{ color: '#000000', fontWeight: 900, fontSize: 13, letterSpacing: '-0.05em', userSelect: 'none' }}>AA</span>
+              <div style={{ width: 36, height: 36, backgroundColor: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+                <img src={`${import.meta.env.BASE_URL}AA.png`} alt="AA" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               </div>
               <div>
                 <h1 style={{ color: '#ffffff', fontWeight: 700, fontSize: 15, lineHeight: 1.2, letterSpacing: '-0.02em', margin: 0 }}>
